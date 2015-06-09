@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2AFAE7A41B274D07006ED2EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7A31B274D07006ED2EA /* AppDelegate.swift */; };
-		2AFAE7A61B274D07006ED2EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7A51B274D07006ED2EA /* ViewController.swift */; };
 		2AFAE7A91B274D07006ED2EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AFAE7A71B274D07006ED2EA /* Main.storyboard */; };
 		2AFAE7AB1B274D07006ED2EA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFAE7AA1B274D07006ED2EA /* Images.xcassets */; };
 		2AFAE7AE1B274D07006ED2EA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFAE7AC1B274D07006ED2EA /* LaunchScreen.xib */; };
 		2AFAE7BA1B274D07006ED2EA /* Flick_FinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7B91B274D07006ED2EA /* Flick_FinderTests.swift */; };
+		2AFAE7C41B274D62006ED2EA /* ImageFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +29,13 @@
 		2AFAE79E1B274D07006ED2EA /* Flick Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flick Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AFAE7A21B274D07006ED2EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AFAE7A31B274D07006ED2EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2AFAE7A51B274D07006ED2EA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2AFAE7A81B274D07006ED2EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2AFAE7AA1B274D07006ED2EA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2AFAE7AD1B274D07006ED2EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		2AFAE7B31B274D07006ED2EA /* Flick FinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flick FinderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AFAE7B81B274D07006ED2EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AFAE7B91B274D07006ED2EA /* Flick_FinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flick_FinderTests.swift; sourceTree = "<group>"; };
+		2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFinderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,11 +77,8 @@
 		2AFAE7A01B274D07006ED2EA /* Flick Finder */ = {
 			isa = PBXGroup;
 			children = (
-				2AFAE7A31B274D07006ED2EA /* AppDelegate.swift */,
-				2AFAE7A51B274D07006ED2EA /* ViewController.swift */,
 				2AFAE7A71B274D07006ED2EA /* Main.storyboard */,
-				2AFAE7AA1B274D07006ED2EA /* Images.xcassets */,
-				2AFAE7AC1B274D07006ED2EA /* LaunchScreen.xib */,
+				2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */,
 				2AFAE7A11B274D07006ED2EA /* Supporting Files */,
 			);
 			path = "Flick Finder";
@@ -90,7 +87,10 @@
 		2AFAE7A11B274D07006ED2EA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2AFAE7A31B274D07006ED2EA /* AppDelegate.swift */,
+				2AFAE7AA1B274D07006ED2EA /* Images.xcassets */,
 				2AFAE7A21B274D07006ED2EA /* Info.plist */,
+				2AFAE7AC1B274D07006ED2EA /* LaunchScreen.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AFAE7A61B274D07006ED2EA /* ViewController.swift in Sources */,
+				2AFAE7C41B274D62006ED2EA /* ImageFinderViewController.swift in Sources */,
 				2AFAE7A41B274D07006ED2EA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
