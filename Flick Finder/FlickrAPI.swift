@@ -15,6 +15,7 @@ class FlickrAPI {
         static let Method = "method"
         static let APIKey = "api_key"
         static let Text = "text"
+        static let BoundingBox = "bbox"
         static let SafeSearch = "safe_search"
         static let GalleryID = "gallery_id"
         static let Extras = "extras"
@@ -25,7 +26,7 @@ class FlickrAPI {
     // Flickr API Methods
     private struct Methods {
         static let GetPhotosFromGallery = "flickr.galleries.getPhotos"
-        static let GetPhotosByPhrase = "flickr.photos.search"
+        static let GetPhotos = "flickr.photos.search"
     }
 
     // Dictionary keys for JSON results
@@ -49,20 +50,24 @@ class FlickrAPI {
         static let Extras = "url_m"
         static let Format = "json"
         static let NoJSONCallback = "1"
-    }
 
-    // MARK: - Access to Flickr API calls
-
-    class func searchPhotosByPhrase(phrase: String, completion: ((photos: [FlickrPhoto]) -> Void)?) {
-        let parameters = [
-            HTTPKeys.Method : Methods.GetPhotosByPhrase,
+        static let GetPhotosParameters = [
+            HTTPKeys.Method : Methods.GetPhotos,
             HTTPKeys.APIKey : Defaults.APIKey,
-            HTTPKeys.Text : phrase,
             HTTPKeys.SafeSearch : Defaults.SafeSearch,
             HTTPKeys.Extras : Defaults.Extras,
             HTTPKeys.Format : Defaults.Format,
             HTTPKeys.NoJSONCallback : Defaults.NoJSONCallback
         ]
+
+        static let BoundingBoxHalfSize = 0.1
+    }
+
+    // MARK: - Access to Flickr API Calls
+
+    class func searchPhotosByPhrase(phrase: String, completion: ((photos: [FlickrPhoto]) -> Void)?) {
+        var parameters = Defaults.GetPhotosParameters
+        parameters[HTTPKeys.Text] = phrase
 
         performRequest(parameters) { data in
             let photos = FlickrAPI.parsePhotosWithJSONData(data)
@@ -70,7 +75,23 @@ class FlickrAPI {
         }
     }
 
-    // MARK: - HTTP requests
+    class func searchPhotosByCoordinates(#latitude: Double, longitude: Double, completion: ((photos: [FlickrPhoto]) -> Void)?) {
+        var parameters = Defaults.GetPhotosParameters
+        parameters[HTTPKeys.BoundingBox] = constructBoundingBoxParameter(latitude: latitude, longitude: longitude)
+
+        performRequest(parameters) { data in
+            let photos = FlickrAPI.parsePhotosWithJSONData(data)
+            completion?(photos: photos)
+        }
+    }
+
+    private class func constructBoundingBoxParameter(#latitude: Double, longitude: Double) -> String {
+        let boundingBoxCorners = ["\(longitude - Defaults.BoundingBoxHalfSize)", "\(latitude - Defaults.BoundingBoxHalfSize)", "\(longitude + Defaults.BoundingBoxHalfSize)", "\(latitude + Defaults.BoundingBoxHalfSize)"]
+
+        return join(",", boundingBoxCorners)
+    }
+
+    // MARK: - HTTP Requests
 
     private class func performRequest(parameters: [String : String], completion: ((parsedJSONData: AnyObject?) -> Void)?) {
         let session = NSURLSession.sharedSession()
@@ -109,7 +130,7 @@ class FlickrAPI {
         return result
     }
 
-    // MARK: JSON parsing
+    // MARK: JSON Parsing
 
     private class func parsePhotosWithJSONData(data: AnyObject?) -> [FlickrPhoto] {
         var result = [FlickrPhoto]()
