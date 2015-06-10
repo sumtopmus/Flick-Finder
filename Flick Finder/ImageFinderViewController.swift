@@ -12,6 +12,7 @@ class ImageFinderViewController: UIViewController, UIGestureRecognizerDelegate {
 
     private struct Defaults {
         static let NoImagesFound = "No Images Found"
+        static let Searching = "Searching..."
 
         static let KeyboardWillShowSelector: Selector = "keyboardWillShow:"
         static let KeyboardWillHideSelector: Selector = "keyboardWillHide:"
@@ -28,8 +29,10 @@ class ImageFinderViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var longitudeSearchField: UITextField!
 
     @IBAction func searchText(sender: UIButton) {
+        self.view.endEditing(true)
         if let textToSearch = textSearchField.text {
             if textToSearch != "" {
+                imageCaption.text = Defaults.Searching
                 FlickrAPI.searchPhotosByPhrase(textToSearch, completion: pickUpAndSetRandomPhoto)
             } else {
                 imageCaption.text = "The search box is empty."
@@ -40,8 +43,10 @@ class ImageFinderViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @IBAction func searchCoordinates(sender: UIButton) {
+        self.view.endEditing(true)
         if let latitude = NSNumberFormatter().numberFromString(latitudeSearchField.text)?.doubleValue, longitude = NSNumberFormatter().numberFromString(longitudeSearchField.text)?.doubleValue {
             if coordinatesAreValid(latitude: latitude, longitude: longitude) {
+                imageCaption.text = Defaults.Searching
                 FlickrAPI.searchPhotosByCoordinates(latitude: latitude, longitude: longitude, completion: pickUpAndSetRandomPhoto)
             } else {
                 imageCaption.text = "The values should be valid: between [-90, 90] for latitude and between [-180, 180] for longitude."
