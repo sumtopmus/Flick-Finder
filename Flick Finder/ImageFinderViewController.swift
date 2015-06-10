@@ -28,14 +28,31 @@ class ImageFinderViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var longitudeSearchField: UITextField!
 
     @IBAction func searchText(sender: UIButton) {
-        let textToSearch = textSearchField.text
-        FlickrAPI.searchPhotosByPhrase(textToSearch, completion: pickUpAndSetRandomPhoto)
+        if let textToSearch = textSearchField.text {
+            if textToSearch != "" {
+                FlickrAPI.searchPhotosByPhrase(textToSearch, completion: pickUpAndSetRandomPhoto)
+            } else {
+                imageCaption.text = "The search box is empty."
+            }
+        } else {
+            imageCaption.text = "The text is not set."
+        }
     }
 
     @IBAction func searchCoordinates(sender: UIButton) {
         if let latitude = NSNumberFormatter().numberFromString(latitudeSearchField.text)?.doubleValue, longitude = NSNumberFormatter().numberFromString(longitudeSearchField.text)?.doubleValue {
-            FlickrAPI.searchPhotosByCoordinates(latitude: latitude, longitude: longitude, completion: pickUpAndSetRandomPhoto)
+            if coordinatesAreValid(latitude: latitude, longitude: longitude) {
+                FlickrAPI.searchPhotosByCoordinates(latitude: latitude, longitude: longitude, completion: pickUpAndSetRandomPhoto)
+            } else {
+                imageCaption.text = "The values should be valid: between [-90, 90] for latitude and between [-180, 180] for longitude."
+            }
+        } else {
+            imageCaption.text = "The latitude and longitude have to be numbers."
         }
+    }
+
+    private func coordinatesAreValid(#latitude: Double, longitude: Double) -> Bool {
+        return -90 <= latitude && latitude <= 90 && -180 <= longitude && longitude <= 180
     }
 
     private func pickUpAndSetRandomPhoto(photos: [FlickrPhoto]) {

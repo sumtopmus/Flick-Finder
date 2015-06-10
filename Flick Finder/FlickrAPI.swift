@@ -16,9 +16,10 @@ class FlickrAPI {
         static let APIKey = "api_key"
         static let Text = "text"
         static let BoundingBox = "bbox"
-        static let SafeSearch = "safe_search"
+        static let Page = "page"
         static let GalleryID = "gallery_id"
         static let Extras = "extras"
+        static let SafeSearch = "safe_search"
         static let Format = "format"
         static let NoJSONCallback = "nojsoncallback"
     }
@@ -32,6 +33,8 @@ class FlickrAPI {
     // Dictionary keys for JSON results
     private struct JSONKeys {
         static let Photos = "photos"
+        static let PagesCount = "pages"
+        static let PhotosCount = "total"
         static let PhotoArray = "photo"
         static let Title = "title"
         static let URL = "url_m"
@@ -61,27 +64,40 @@ class FlickrAPI {
         ]
 
         static let BoundingBoxHalfSize = 0.1
+
+        static let MaxPhotosCount = 4000
+        static let MaxPagesCount = 40
     }
 
     // MARK: - Access to Flickr API Calls
 
+    // Returns random page (<=100 photos)
     class func searchPhotosByPhrase(phrase: String, completion: ((photos: [FlickrPhoto]) -> Void)?) {
         var parameters = Defaults.GetPhotosParameters
         parameters[HTTPKeys.Text] = phrase
 
-        performRequest(parameters) { data in
-            let photos = FlickrAPI.parsePhotosWithJSONData(data)
-            completion?(photos: photos)
-        }
+        searchPhotosAndPickRandomPage(parameters: parameters, completion: completion)
     }
 
+    // Returns random page (<=100 photos)
     class func searchPhotosByCoordinates(#latitude: Double, longitude: Double, completion: ((photos: [FlickrPhoto]) -> Void)?) {
         var parameters = Defaults.GetPhotosParameters
         parameters[HTTPKeys.BoundingBox] = constructBoundingBoxParameter(latitude: latitude, longitude: longitude)
 
+        searchPhotosAndPickRandomPage(parameters: parameters, completion: completion)
+    }
+
+    class func searchPhotosAndPickRandomPage(var #parameters: [String : String], completion: ((photos: [FlickrPhoto]) -> Void)?) {
         performRequest(parameters) { data in
-            let photos = FlickrAPI.parsePhotosWithJSONData(data)
-            completion?(photos: photos)
+            let count = FlickrAPI.parsePhotosArrayMetadataWithJSONData(data)
+            let maximalPhoto = min(Defaults.MaxPhotosCount, count.photosCount)
+            let randomPageindex = (Int(arc4random_uniform(UInt32(maximalPhoto))) + 100) / 100
+
+            parameters[HTTPKeys.Page] = "\(randomPageindex)"
+
+            FlickrAPI.performRequest(parameters) { data in
+                completion?(photos: FlickrAPI.parsePhotosWithJSONData(data))
+            }
         }
     }
 
@@ -132,6 +148,20 @@ class FlickrAPI {
 
     // MARK: JSON Parsing
 
+    private class func parsePhotosArrayMetadataWithJSONData(data: AnyObject?) -> (pagesCount: Int, photosCount: Int) {
+        var result = (pagesCount: 0, photosCount: 0)
+
+        if let dataDictionary = data as? [String : AnyObject],
+            photos = dataDictionary[JSONKeys.Photos] as? [String : AnyObject],
+            pagesCount = photos[JSONKeys.PagesCount] as? Int,
+            photosCount = photos[JSONKeys.PhotosCount] as? Int {
+                result.pagesCount = pagesCount
+                result.photosCount = photosCount
+        }
+        
+        return result
+    }
+
     private class func parsePhotosWithJSONData(data: AnyObject?) -> [FlickrPhoto] {
         var result = [FlickrPhoto]()
 
@@ -141,7 +171,7 @@ class FlickrAPI {
             for photo in photoArray {
                 if let title = photo[JSONKeys.Title] as? String,
                     url = photo[JSONKeys.URL] as? String {
-                    result.append(FlickrPhoto(title: title, urlString: url))
+                        result.append(FlickrPhoto(title: title, urlString: url))
                 }
             }
         }
