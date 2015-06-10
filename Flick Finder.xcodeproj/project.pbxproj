@@ -13,6 +13,8 @@
 		2AFAE7AE1B274D07006ED2EA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFAE7AC1B274D07006ED2EA /* LaunchScreen.xib */; };
 		2AFAE7BA1B274D07006ED2EA /* Flick_FinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7B91B274D07006ED2EA /* Flick_FinderTests.swift */; };
 		2AFAE7C41B274D62006ED2EA /* ImageFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */; };
+		2AFAE7C61B2758E6006ED2EA /* FlickrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7C51B2758E6006ED2EA /* FlickrAPI.swift */; };
+		2AFAE7C81B27AA87006ED2EA /* FlickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAE7C71B27AA87006ED2EA /* FlickrPhoto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		2AFAE7B81B274D07006ED2EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AFAE7B91B274D07006ED2EA /* Flick_FinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flick_FinderTests.swift; sourceTree = "<group>"; };
 		2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFinderViewController.swift; sourceTree = "<group>"; };
+		2AFAE7C51B2758E6006ED2EA /* FlickrAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrAPI.swift; sourceTree = "<group>"; };
+		2AFAE7C71B27AA87006ED2EA /* FlickrPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrPhoto.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			children = (
 				2AFAE7A71B274D07006ED2EA /* Main.storyboard */,
 				2AFAE7C31B274D62006ED2EA /* ImageFinderViewController.swift */,
+				2AFAE7C51B2758E6006ED2EA /* FlickrAPI.swift */,
+				2AFAE7C71B27AA87006ED2EA /* FlickrPhoto.swift */,
 				2AFAE7A11B274D07006ED2EA /* Supporting Files */,
 			);
 			path = "Flick Finder";
@@ -212,6 +218,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AFAE7C61B2758E6006ED2EA /* FlickrAPI.swift in Sources */,
+				2AFAE7C81B27AA87006ED2EA /* FlickrPhoto.swift in Sources */,
 				2AFAE7C41B274D62006ED2EA /* ImageFinderViewController.swift in Sources */,
 				2AFAE7A41B274D07006ED2EA /* AppDelegate.swift in Sources */,
 			);
